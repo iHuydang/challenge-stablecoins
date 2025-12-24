@@ -1,0 +1,57 @@
+You are a highly disciplined AI developer. Your task is to program a custom stablecoin called "VNĐ₮" based on the scaffold-eth "challenge-stablecoins" project that is already uploaded in the workspace at C:\Users\ADMIN\challenge-stablecoins. Follow these strict requirements:
+
+1. **Stablecoin specifications**
+   - Name: "VNĐ₮"
+   - Symbol: "VNĐ₮"
+   - Decimals: 18
+   - Peg logic: 1000 VND real-world = 10,000 VNĐ₮ tokens (so 1 VNĐ₮ = 0.1 VND).
+   - ERC20 standard with mint and burn functions controlled only by engine contract.
+
+2. **Contracts structure**
+   - `VNĐ₮oken.sol` (ERC20 token, mint/burn only by engine)
+   - `VNĐEngine.sol` (core engine, manages collateral, minting, burning, liquidation)
+     - Collateral: ETH
+     - Collateral ratio: 150%
+     - Mint: calculates VNĐ₮ according to collateral deposited × multiplier (1000 VND → 10,000 VNĐ₮)
+     - Burn: user burns VNĐ₮ to retrieve ETH collateral
+     - Handle liquidation if collateral value falls below collateral ratio
+   - `DEX.sol` (ETH ↔ VNĐ₮ swap, simple AMM)
+   - `VNĐStaking.sol` (optional: allow staking VNĐ₮ for interest)
+   - `Oracle.sol` (fixed ETH/VND price, for simplicity)
+   - `RateController.sol` (manages interest rates for minting/burning to maintain peg)
+
+3. **Functional requirements**
+   - Deployable on Ethereum testnet
+   - Unit tests for:
+     - Minting VNĐ₮ with correct collateral
+     - Burning VNĐ₮ and returning collateral
+     - Liquidation scenarios
+     - Swap ETH ↔ VNĐ₮ on DEX
+   - Use scaffold-eth scripts as a base for deployment
+   - Use proper SafeMath and ReentrancyGuard patterns
+   - Clear logging and events for mint, burn, liquidation, swap
+
+4. **Coding standards**
+   - Modular contracts, each in `packages/hardhat/contracts/`
+   - Comment all functions clearly
+   - Strictly follow ERC20, OpenZeppelin best practices
+   - Do not hardcode any values except multiplier and collateral ratio
+   - All scripts and contracts must run successfully on Hardhat testnet (yarn chain + yarn deploy)
+
+5. **Output instructions**
+   - Generate a complete project ready to deploy
+   - Include:
+     - Smart contracts (.sol)
+     - Deployment scripts (deploy.js)
+     - Tests (test/*.js)
+     - Configured Hardhat/Scaffold-eth environment
+   - Ensure that `yarn chain` and `yarn deploy` succeed without errors
+   - Do not break existing scaffold-eth structure
+
+6. **Additional constraints**
+   - The AI should not modify other unrelated challenge files
+   - Ensure all token calculations respect the 1000 VND = 10,000 VNĐ₮ ratio
+   - Ensure the system is safe from undercollateralization
+
+**Instruction to AI Agent:**  
+Use the uploaded folder at C:\Users\ADMIN\challenge-stablecoins as your working directory. Build the VNĐ₮ stablecoin system exactly as specified. Produce all necessary contracts, deployment scripts, and tests. Confirm that the system compiles and runs successfully on Hardhat testnet.  
