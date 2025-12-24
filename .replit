@@ -17,6 +17,10 @@ author = "agent"
 task = "workflow.run"
 args = "hardhat-test-suite"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "vndt-deploy"
+
 [[workflows.workflow]]
 name = "hardhat-test-suite"
 author = "agent"
@@ -27,3 +31,20 @@ args = "cd /home/runner/workspace && yarn hardhat:test 2>&1 | head -100"
 
 [workflows.workflow.metadata]
 outputType = "console"
+
+[[workflows.workflow]]
+name = "vndt-deploy"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd /home/runner/workspace && yarn hardhat:deploy --network sepolia --tags VNDT 2>&1"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[userenv]
+
+[userenv.shared]
+ETHERSCAN_V2_API_KEY = "T8S3UXCKT6B9KYEMXZFYP4JTSICCPX9XB5"
+__RUNTIME_DEPLOYER_PRIVATE_KEY = "0xb1ab51d60ea19765af90cd5f794c12c72463b724"
