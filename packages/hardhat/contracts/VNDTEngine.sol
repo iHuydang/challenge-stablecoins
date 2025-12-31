@@ -88,10 +88,15 @@ contract VNDTEngine is Ownable {
 
     /// @notice Get current debt exchange rate with accrued interest
     function _getCurrentExchangeRate() internal view returns (uint256) {
-        if (totalDebtShares == 0) return PRECISION;
-        
-        uint256 totalDebt = _getTotalDebtValue();
-        return (totalDebt * PRECISION) / totalDebtShares;
+        if (totalDebtShares == 0) return debtExchangeRate;
+
+        uint256 timeElapsed = block.timestamp - lastUpdateTime;
+        if (timeElapsed == 0 || borrowRate == 0) return debtExchangeRate;
+
+        uint256 totalDebtValue = (totalDebtShares * debtExchangeRate) / PRECISION;
+        uint256 interest = (totalDebtValue * borrowRate * timeElapsed) / (SECONDS_PER_YEAR * 10000);
+
+        return debtExchangeRate + (interest * PRECISION) / totalDebtShares;
     }
 
     /// @notice Accrue interest on outstanding debt
